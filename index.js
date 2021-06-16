@@ -15,7 +15,51 @@ const questions = [
                 return false;
             }
         }
-    }
+    },
+    {
+        type: "input",
+        name: "description",
+        message: "Please provide description for this project!!",
+        validate: descriptionInput => {
+            if (descriptionInput.split(' ') > 4) {
+                return true;
+            }
+            else {
+                console.log("Please input at least five words!!");
+                return false;
+            }
+        }
+    },
+    {
+        type: "input",
+        name: "installation",
+        message: "Please provide instructions on how to install this project!!",
+        validate: installationInput => {
+            if (installationInput.split(' ') > 4) {
+                return true;
+            }
+            else {
+                console.log("Please input at least five words!!");
+                return false;
+            }
+        }
+    },
+
+    //////USAGE
+    {
+        type: "input",
+        name: "title",
+        message: "Please enter the title of your project!!",
+        validate: titleInput => {
+            if (titleInput) {
+                return true;
+            }
+            else {
+                console.log("Title cannot be blank, please try again!!");
+                return false;
+            }
+        }
+    },
 ]
 
 /*() => {
@@ -47,4 +91,7 @@ function init() {
 }
 
 // Function call to initialize app
-init();
+init()
+    .then(readmeData => {
+        console.log(readmeData);
+    });
