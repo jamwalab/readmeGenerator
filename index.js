@@ -1,5 +1,11 @@
 // TODO: Include packages needed for this application
 const inquirer = require("inquirer");
+const fs = require('fs');
+
+const readFolderfiles = require("./utils/readFolderfiles");
+
+let ssList = [];
+
 // TODO: Create an array of questions for user input
 const questions = [
     {
@@ -87,13 +93,12 @@ const questions = [
         }
     },
     {
-        type: "checkbox",
+        type: "list",
         name: "license",
         message: "Please select optional data you want to add?",
         choices: [
             "MIT", "Apache","GNU", "ISC", "Rust"
-        ],
-        default: "MIT"
+        ]
     },
     {
         type: "confirm",
@@ -175,11 +180,69 @@ const questions = [
                 return false;
             }
         }
-    }
+    },
+    {
+        type: "input",
+        name: "FileName",
+        message: "Please enter name of the Read Me file!!",
+        default: "README"
+    },
+    {
+        type: "confirm",
+        name: "addSs",
+        message: "Would you like to add screenshots to your project?",
+        default: false
+    },
+    {
+        type: "confirm",
+        name: "addBadge",
+        message: "Would you like to add badges to your project?",
+        default: false
+    },
 ]
 
-
-
+const screenshot = questions => {
+    if (!questions.screenshot) {
+        questions.screenshot = [];
+    }
+    if (!questions.addSs) {
+        return questions;
+    }
+    if (ssList.length === 0) {
+        console.log("----No screenshots to select from!!")
+        return questions;
+    }
+    return inquirer.prompt([
+        {
+            type: "list",
+            name: "screenshotSection",
+            message: "After which section do you want to add the screenshot to?",
+            choices: [
+                "Description", "Installation","Usage"
+            ]
+        },
+        {
+            type: "list",
+            name: "screenshotFile",
+            message: "Select an image file!!",
+            choices: ssList
+        },
+        {
+            type: "confirm",
+            name: "addSs",
+            message: "Would you like to add screenshots to your project?",
+            default: false
+        }
+    ]).then (ssData => {
+        questions.screenshot.push(ssData);
+        if (ssData.addSs) {
+            return screenshot(questions);
+        }
+        else {
+            return questions;
+        }
+    })
+}
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {}
 
@@ -191,8 +254,18 @@ function init() {
 };
 
 // Function call to initialize app
-init()
-    //.then(optionalData)
+readFolderfiles()
+    .then(response => {
+        ssList = response;
+        console.log(ssList);
+    })
+    .then(init)
+    .then(screenshot)
+    .then(response => {
+        console.log(response);
+    })
+/*init()
+    .then(screenshot)
     .then(readmeData => {
         console.log(readmeData);
-    });
+    });*/
