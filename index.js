@@ -102,6 +102,33 @@ const questions = [
     },
     {
         type: "confirm",
+        name: "badgeOption",
+        message: "Would you like to add badge for your license?",
+        default: false
+    },
+    {
+        type: "input",
+        name: "addBadge",
+        message: "Please provide link to your badge!!",
+        when: ({badgeOption}) => {
+            if (badgeOption) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        validate: input => {
+            if (input) {
+                return true;
+            }
+            else {
+                console.log("Entry cannot be blank, please try again!!");
+                return false;
+            }
+        }
+    },
+    {
+        type: "confirm",
         name: "videoOption",
         message: "Would you like to add a video link?",
         default: false
@@ -192,13 +219,7 @@ const questions = [
         name: "addSs",
         message: "Would you like to add screenshots to your project?",
         default: false
-    },
-    {
-        type: "confirm",
-        name: "addBadge",
-        message: "Would you like to add badges to your project?",
-        default: false
-    },
+    }
 ]
 
 const screenshot = questions => {
@@ -243,6 +264,7 @@ const screenshot = questions => {
         }
     })
 }
+
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {}
 
@@ -264,8 +286,3 @@ readFolderfiles()
     .then(response => {
         console.log(response);
     })
-/*init()
-    .then(screenshot)
-    .then(readmeData => {
-        console.log(readmeData);
-    });*/
