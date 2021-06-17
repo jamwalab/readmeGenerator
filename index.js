@@ -21,7 +21,7 @@ const questions = [
         name: "description",
         message: "Please provide description for this project!!",
         validate: descriptionInput => {
-            if (descriptionInput.split(' ') > 4) {
+            if (descriptionInput.split(' ').length > 4) {
                 return true;
             }
             else {
@@ -35,7 +35,7 @@ const questions = [
         name: "installation",
         message: "Please provide instructions on how to install this project!!",
         validate: installationInput => {
-            if (installationInput.split(' ') > 4) {
+            if (installationInput.split(' ').length > 4) {
                 return true;
             }
             else {
@@ -44,18 +44,44 @@ const questions = [
             }
         }
     },
-
-    //////USAGE
     {
         type: "input",
-        name: "title",
-        message: "Please enter the title of your project!!",
-        validate: titleInput => {
-            if (titleInput) {
+        name: "usage",
+        message: "Please enter the usage information for the project!!",
+        validate: usageInput => {
+            if (usageInput.split(' ').length > 4) {
                 return true;
             }
             else {
-                console.log("Title cannot be blank, please try again!!");
+                console.log("Please input at least five words!!");
+                return false;
+            }
+        }
+    },
+    {
+        type: "input",
+        name: "contribution",
+        message: "Please provide contribution guidelines for the project!!",
+        validate: contributionInput => {
+            if (contributionInput.split(' ').length > 4) {
+                return true;
+            }
+            else {
+                console.log("Please input at least five words!!");
+                return false;
+            }
+        }
+    },
+    {
+        type: "input",
+        name: "test",
+        message: "Please provide test instructions for the project!!",
+        validate: testInput => {
+            if (testInput.split(' ').length > 4) {
+                return true;
+            }
+            else {
+                console.log("Please input at least five words!!");
                 return false;
             }
         }
