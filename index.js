@@ -85,7 +85,7 @@ const questions = [
                 return false;
             }
         }
-    },
+    }
 ]
 
 /*() => {
@@ -113,8 +113,9 @@ function writeToFile(fileName, data) {}
 
 // TODO: Create a function to initialize app
 function init() {
-    return inquirer.prompt(questions)
-}
+    return inquirer
+        .prompt(questions);
+};
 
 // Function call to initialize app
 init()
