@@ -1,6 +1,6 @@
-// TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
+//-----GENERATES CLICKABLE LICENSE BADGES - CLICK TO OPEN LICENSE PAGE-----//
 function renderLicenseBadge(license, optional) {
+  //If add badge option selected
   if (optional.badgeOption) {
     if (license === "MIT") {
       return "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)";
@@ -20,49 +20,79 @@ function renderLicenseBadge(license, optional) {
   }
 }
 
-const tableOfContent = (installation, usage, contribution, test, license, optional) => {
+//-----CREATES TABLE OF CONTENT-----//
+const tableOfContent = (optional) => {
   let table = `
 * [License](#license)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Contribution](#contribution)
-* [Test](#test)`;
-  if (optional.credit) {
-    console.log("in")
-    table = table.concat("\n* [Credit](#credit)")
-  }
+* [Test](#test)
+* [Contribution](#contribution)`;
+  //if feature text is added
   if (optional.feature) {
-    console.log("in")
     table = table.concat("\n* [Feature](#feature)")
+  }
+  //if credits are added
+  if (optional.credit) {
+    table = table.concat("\n* [Credit](#credit)")
   }
   return table;
 }
 
+//-----CHECKS IF SCREENSHOTS ARE ADDED AND SECTION THEY ARE LINKED TO-----//
 const checkScreenshot = (optional, section) => {
-  console.log(optional)
+  //If no screenshot exit
   if (optional.screenshot.length === 0) {
     return "";
   }
   let ssText = "";
   optional.screenshot.forEach(screenshot => {
+    //check if section matches
     if (screenshot.screenshotSection === section) {
       ssText = ssText.concat(`\n![image](./assets/img/${screenshot.screenshotFile})`)
     }
   });
   return ssText;
 }
-// TODO: Create a function that returns the license link
-// If there is no license, return an empty string
-function renderLicenseLink(license) {}
 
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(license) {}
+//-----CHECKS FOR THE OPTIONAL SECTIONS AND ADDS THEM IF THEY EXIST-----//
+const generateOptional = optional => {
+  let text ="";
+  //checks for feature section
+  if (optional.feature) {
+    text = text.concat(`
+## Feature
+    
+${optional.feature}
+    `)
+  }
 
-// TODO: Create a function to generate markdown for README
+  //checks for credit section
+  if (optional.credit) {
+    console.log("in")
+    text = text.concat(`
+## Credits
+    
+${optional.credit}
+    `)
+  }
+  return text;
+}
+
+//-----CHECKS IF SCREENSHOTS ARE ADDED AND SECTION THEY ARE LINKED TO-----//
+const checkVideo = (optional) => {
+  if (!optional.videoOption) {
+    return "aaa";
+  }
+  return `\n\n[Link to the Video](${optional.video})`
+}
+
+//-----MAIN SECTION THAT GENERATES THE MARKDOWN TEXT-----//
 function generateMarkdown(data) {
   console.log(data);
+  //seperate different sections to variables
   const {title, description, installation, usage, contribution, test, license, ...optional} = data;
+  //return template section
   return `# ${title}
 ## Description
 
@@ -70,7 +100,7 @@ ${description}
 ${checkScreenshot(optional, "Description")}
 
 ## Table of Contents
-${tableOfContent(installation, usage, contribution, test, license, optional)}
+${tableOfContent(optional)}
 
 ## License
 
@@ -82,18 +112,17 @@ ${installation}
 
 ## Usage
 
-${usage}
+${usage}${checkVideo(optional)}
 ${checkScreenshot(optional, "Usage")}
-
-## Contribution
-
-${contribution}
 
 ## Test
 
 ${test}
 
-`;
+## Contribution
+
+${contribution}
+${generateOptional(optional)}`;
 }
 
 module.exports = generateMarkdown;
