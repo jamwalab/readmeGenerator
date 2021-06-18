@@ -3,21 +3,54 @@ const inquirer = require("inquirer");
 const fs = require('fs');
 
 const readFolderfiles = require("./utils/readFolderfiles");
+const generateMarkdown = require("./utils/generateMarkdown");
 
 let ssList = [];
+
+const mockData = {
+    title: 'Readme Generator',
+    description: 'This project reads user inputs using inquirer and creates markdown based on the inputs.\n\nThis app makes it east to generate',
+    installation: 'fork the repo and install npm modules. once done run using node and reply to series of questions.\n\nReply to me',
+    usage: 'Use as you like, no restrictions',
+    contribution: 'To contribut please contact the author of the project',
+    test: 'Test features are not active yet',
+    license: 'ISC',
+    badgeOption: true,
+    addBadge: '![AUR license](https://img.shields.io/aur/license/android-studio)',
+    videoOption: true,
+    video: 'https://www.youtube.com/watch?v=va9OS0QMGyM&ab_channel=VideoFromSpaceVideoFromSpaceVerified',
+    creditOption: true,
+    credit: 'Abhishek Jamwal',
+    featureOption: true,
+    feature: 'lots and lots ',
+    FileName: 'README',
+    addSs: true,
+    screenshot: [
+      {
+        screenshotSection: 'Description',
+        screenshotFile: '05-third-party-apis-homework-demo.gif',
+        addSs: true
+      },
+      {
+        screenshotSection: 'Usage',
+        screenshotFile: '06-server-side-apis-homework-demo.png',
+        addSs: false
+      }
+    ]
+  }
 
 // TODO: Create an array of questions for user input
 const questions = [
     {
         type: "input",
         name: "title",
-        message: "Please enter the title of your project!!",
+        message: "Please enter the title of your project!!\n",
         validate: titleInput => {
             if (titleInput) {
                 return true;
             }
             else {
-                console.log("Title cannot be blank, please try again!!");
+                console.log("\nTitle cannot be blank, please try again!!\n");
                 return false;
             }
         }
@@ -25,13 +58,13 @@ const questions = [
     {
         type: "input",
         name: "description",
-        message: "Please provide description for this project!!",
+        message: "Please provide description for this project!! Use \\n\\n for newline and \\n* for bullets!!\n",
         validate: descriptionInput => {
             if (descriptionInput.split(' ').length > 4) {
                 return true;
             }
             else {
-                console.log("Please input at least five words!!");
+                console.log("\nPlease input at least five words!!\n");
                 return false;
             }
         }
@@ -39,13 +72,13 @@ const questions = [
     {
         type: "input",
         name: "installation",
-        message: "Please provide instructions on how to install this project!!",
+        message: "Please provide instructions on how to install this project!! Use \\n\\n for newline and \\n* for bullets!!\n",
         validate: installationInput => {
             if (installationInput.split(' ').length > 4) {
                 return true;
             }
             else {
-                console.log("Please input at least five words!!");
+                console.log("\nPlease input at least five words!!\n");
                 return false;
             }
         }
@@ -53,13 +86,13 @@ const questions = [
     {
         type: "input",
         name: "usage",
-        message: "Please enter the usage information for the project!!",
+        message: "Please enter the usage information for the project!! Use \\n\\n for newline and \\n* for bullets!!\n",
         validate: usageInput => {
             if (usageInput.split(' ').length > 4) {
                 return true;
             }
             else {
-                console.log("Please input at least five words!!");
+                console.log("\nPlease input at least five words!!\n");
                 return false;
             }
         }
@@ -67,13 +100,13 @@ const questions = [
     {
         type: "input",
         name: "contribution",
-        message: "Please provide contribution guidelines for the project!!",
+        message: "Please provide contribution guidelines for the project!! Use \\n\\n for newline and \\n* for bullets!!\n",
         validate: contributionInput => {
             if (contributionInput.split(' ').length > 4) {
                 return true;
             }
             else {
-                console.log("Please input at least five words!!");
+                console.log("\nPlease input at least five words!!\n");
                 return false;
             }
         }
@@ -81,13 +114,13 @@ const questions = [
     {
         type: "input",
         name: "test",
-        message: "Please provide test instructions for the project!!",
+        message: "Please provide test instructions for the project!! Use \\n\\n for newline and \\n* for bullets!!\n",
         validate: testInput => {
             if (testInput.split(' ').length > 4) {
                 return true;
             }
             else {
-                console.log("Please input at least five words!!");
+                console.log("\nPlease input at least five words!!\n");
                 return false;
             }
         }
@@ -97,46 +130,25 @@ const questions = [
         name: "license",
         message: "Please select optional data you want to add?",
         choices: [
-            "MIT", "Apache","GNU", "ISC", "Rust"
+            "MIT", "Apache","GNU", "ISC", "EPL"
         ]
     },
     {
         type: "confirm",
         name: "badgeOption",
-        message: "Would you like to add badge for your license?",
+        message: " Would you like to add badge for your license?",
         default: false
-    },
-    {
-        type: "input",
-        name: "addBadge",
-        message: "Please provide link to your badge!!",
-        when: ({badgeOption}) => {
-            if (badgeOption) {
-                return true;
-            } else {
-                return false;
-            }
-        },
-        validate: input => {
-            if (input) {
-                return true;
-            }
-            else {
-                console.log("Entry cannot be blank, please try again!!");
-                return false;
-            }
-        }
     },
     {
         type: "confirm",
         name: "videoOption",
-        message: "Would you like to add a video link?",
+        message: " Would you like to add a video link?",
         default: false
     },
     {
         type: "input",
         name: "video",
-        message: "Please enter the video link for your project!!",
+        message: "Please enter the video link for your project!!\n",
         when: ({videoOption}) => {
             if (videoOption) {
                 return true;
@@ -149,7 +161,7 @@ const questions = [
                 return true;
             }
             else {
-                console.log("Link cannot be blank, please try again!!");
+                console.log("\nLink cannot be blank, please try again!!\n");
                 return false;
             }
         }
@@ -163,7 +175,7 @@ const questions = [
     {
         type: "input",
         name: "credit",
-        message: "Please enter credits for your project!!",
+        message: "Please enter credits for your project!! Use \\n\\n for newline and \\n* for bullets!!\n",
         when: ({creditOption}) => {
             if (creditOption) {
                 return true;
@@ -176,7 +188,7 @@ const questions = [
                 return true;
             }
             else {
-                console.log("Entry cannot be blank, please try again!!");
+                console.log("\nEntry cannot be blank, please try again!!\n");
                 return false;
             }
         }
@@ -190,7 +202,7 @@ const questions = [
     {
         type: "input",
         name: "feature",
-        message: "Please enter features for your project!!",
+        message: "Please enter features for your project!! Use \\n\\n for newline and \\n* for bullets!!\n",
         when: ({creditOption}) => {
             if (creditOption) {
                 return true;
@@ -203,7 +215,7 @@ const questions = [
                 return true;
             }
             else {
-                console.log("Entry cannot be blank, please try again!!");
+                console.log("\nEntry cannot be blank, please try again!!\n");
                 return false;
             }
         }
@@ -279,10 +291,14 @@ function init() {
 readFolderfiles()
     .then(response => {
         ssList = response;
-        console.log(ssList);
+        console.log(ssList)
     })
-    .then(init)
-    .then(screenshot)
+    //.then(init)
+    //.then(screenshot)
+    //change
+    .then(readmeInputs => {
+        return generateMarkdown(mockData);
+    })
     .then(response => {
         console.log(response);
     })

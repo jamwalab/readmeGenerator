@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { resolve } = require("path");
+
 let ssList = []
 
 const readFolderfiles = () => {
