@@ -72,7 +72,6 @@ ${optional.feature}
 
   //checks for credit section
   if (optional.credit) {
-    console.log("in")
     text = text.concat(`
 ## Credits
     
