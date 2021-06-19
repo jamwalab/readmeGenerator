@@ -72,7 +72,6 @@ ${optional.feature}
 
   //checks for credit section
   if (optional.credit) {
-    console.log("in")
     text = text.concat(`
 ## Credits
     
@@ -113,6 +112,7 @@ ${renderLicenseBadge(license, optional)}
 ## Installation
 
 ${installation}
+${checkScreenshot(optional, "Installation")}
 
 ## Usage
 

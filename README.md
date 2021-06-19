@@ -25,6 +25,7 @@ To install this app you need to have node installed in your system. Once install
 
 Once the repository is cloned, using bash terminal, move to the app repository. Once there install the required npm modules suing the command _"npm install"_. After the npm modules are installed, run the app using the command _"node index"_. App will ask you a series of question, answering them will generate the README file.
 
+
 ## Usage
 
 Once run the app will ask a series of questions, based on which the readme file is generated. Some of the questions asked include:
