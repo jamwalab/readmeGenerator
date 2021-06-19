@@ -4,6 +4,7 @@ const fs = require('fs');
 
 const readFolderfiles = require("./utils/readFolderfiles");
 const generateMarkdown = require("./utils/generateMarkdown");
+const writeFile = require("./utils/writeMarkdown");
 
 let ssList = [];
 
@@ -23,7 +24,7 @@ const mockData = {
     credit: 'Abhishek Jamwal',
     featureOption: true,
     feature: 'lots and lots ',
-    FileName: 'README',
+    fileName: 'README',
     addSs: true,
     screenshot: [
       {
@@ -44,7 +45,7 @@ const questions = [
     {
         type: "input",
         name: "title",
-        message: "Please enter the title of your project!!\n",
+        message: "Please enter the title of your project!!(Required)\n",
         validate: titleInput => {
             if (titleInput) {
                 return true;
@@ -58,7 +59,7 @@ const questions = [
     {
         type: "input",
         name: "description",
-        message: "Please provide description for this project!! Use \\n\\n for newline and \\n* for bullets!!\n",
+        message: "Please provide description for this project (minimum five words)!!\n",
         validate: descriptionInput => {
             if (descriptionInput.split(' ').length > 4) {
                 return true;
@@ -70,9 +71,9 @@ const questions = [
         }
     },
     {
-        type: "input",
+        type: "editor",
         name: "installation",
-        message: "Please provide instructions on how to install this project!! Use \\n\\n for newline and \\n* for bullets!!\n",
+        message: "Please provide instructions on how to install this project (minimum five words)!!\n",
         validate: installationInput => {
             if (installationInput.split(' ').length > 4) {
                 return true;
@@ -84,9 +85,9 @@ const questions = [
         }
     },
     {
-        type: "input",
+        type: "editor",
         name: "usage",
-        message: "Please enter the usage information for the project!! Use \\n\\n for newline and \\n* for bullets!!\n",
+        message: "Please enter the usage information for the project (minimum five words)!!\n",
         validate: usageInput => {
             if (usageInput.split(' ').length > 4) {
                 return true;
@@ -100,7 +101,7 @@ const questions = [
     {
         type: "input",
         name: "contribution",
-        message: "Please provide contribution guidelines for the project!! Use \\n\\n for newline and \\n* for bullets!!\n",
+        message: "Please provide contribution guidelines for the project (minimum five words)!!\n",
         validate: contributionInput => {
             if (contributionInput.split(' ').length > 4) {
                 return true;
@@ -114,7 +115,7 @@ const questions = [
     {
         type: "input",
         name: "test",
-        message: "Please provide test instructions for the project!! Use \\n\\n for newline and \\n* for bullets!!\n",
+        message: "Please provide test instructions for the project (minimum five words)!!\n",
         validate: testInput => {
             if (testInput.split(' ').length > 4) {
                 return true;
@@ -173,9 +174,9 @@ const questions = [
         default: false
     },
     {
-        type: "input",
+        type: "editor",
         name: "credit",
-        message: "Please enter credits for your project!! Use \\n\\n for newline and \\n* for bullets!!\n",
+        message: "Please enter credits for your project!!\n",
         when: ({creditOption}) => {
             if (creditOption) {
                 return true;
@@ -200,9 +201,9 @@ const questions = [
         default: false
     },
     {
-        type: "input",
+        type: "editor",
         name: "feature",
-        message: "Please enter features for your project!! Use \\n\\n for newline and \\n* for bullets!!\n",
+        message: "Please enter features for your project!!\n",
         when: ({creditOption}) => {
             if (creditOption) {
                 return true;
@@ -222,7 +223,7 @@ const questions = [
     },
     {
         type: "input",
-        name: "FileName",
+        name: "fileName",
         message: "Please enter name of the Read Me file!!",
         default: "README"
     },
@@ -282,7 +283,11 @@ function writeToFile(fileName, data) {}
 
 // TODO: Create a function to initialize app
 function init() {
-    
+    console.log(`
+    ==================================================
+    README GENERATOR - Please follow the instructions.
+    ==================================================
+    `)
     return inquirer
         .prompt(questions);
 };
@@ -291,14 +296,23 @@ function init() {
 readFolderfiles()
     .then(response => {
         ssList = response;
-        console.log(ssList)
+        console.log(ssList);
     })
-    //.then(init)
-    //.then(screenshot)
+    .then(init)
+    .then(screenshot)
     //change
     .then(readmeInputs => {
-        return generateMarkdown(mockData);
+        return {
+            markdownText: generateMarkdown(readmeInputs), 
+            fileName: mockData.fileName
+        };
     })
-    .then(response => {
-        console.log(response);
+    .then(writeFileData => {
+        return writeFile(writeFileData);
+    })
+    .then(writeFileResponse => {
+        console.log(writeFileResponse);
+    })
+    .catch(err => {
+        console.log(err);
     })

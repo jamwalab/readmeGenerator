@@ -18,6 +18,9 @@ function renderLicenseBadge(license, optional) {
       return "[![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)"
     }
   }
+  else {
+    return license;
+  }
 }
 
 //-----CREATES TABLE OF CONTENT-----//
@@ -34,7 +37,7 @@ const tableOfContent = (optional) => {
   }
   //if credits are added
   if (optional.credit) {
-    table = table.concat("\n* [Credit](#credit)")
+    table = table.concat("\n* [Credits](#credits)")
   }
   return table;
 }
@@ -94,6 +97,7 @@ function generateMarkdown(data) {
   const {title, description, installation, usage, contribution, test, license, ...optional} = data;
   //return template section
   return `# ${title}
+## Version 1.0
 ## Description
 
 ${description}
@@ -104,7 +108,7 @@ ${tableOfContent(optional)}
 
 ## License
 
-${license} ${renderLicenseBadge(license, optional)}
+${renderLicenseBadge(license, optional)}
 
 ## Installation
 
