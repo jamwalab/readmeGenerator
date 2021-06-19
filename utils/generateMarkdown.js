@@ -112,6 +112,7 @@ ${renderLicenseBadge(license, optional)}
 ## Installation
 
 ${installation}
+${checkScreenshot(optional, "Installation")}
 
 ## Usage
 

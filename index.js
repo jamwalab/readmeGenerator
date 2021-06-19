@@ -1,46 +1,16 @@
-// TODO: Include packages needed for this application
+//-----DECLARATION SECTION-----//
 const inquirer = require("inquirer");
-const fs = require('fs');
-
+//Read image folder
 const readFolderfiles = require("./utils/readFolderfiles");
+//Generate README template
 const generateMarkdown = require("./utils/generateMarkdown");
+//Write the template on file
 const writeFile = require("./utils/writeMarkdown");
 
+//Empty image list array
 let ssList = [];
 
-const mockData = {
-    title: 'Readme Generator',
-    description: 'This project reads user inputs using inquirer and creates markdown based on the inputs.\n\nThis app makes it east to generate',
-    installation: 'fork the repo and install npm modules. once done run using node and reply to series of questions.\n\nReply to me',
-    usage: 'Use as you like, no restrictions',
-    contribution: 'To contribut please contact the author of the project',
-    test: 'Test features are not active yet',
-    license: 'ISC',
-    badgeOption: true,
-    addBadge: '![AUR license](https://img.shields.io/aur/license/android-studio)',
-    videoOption: true,
-    video: 'https://www.youtube.com/watch?v=va9OS0QMGyM&ab_channel=VideoFromSpaceVideoFromSpaceVerified',
-    creditOption: true,
-    credit: 'Abhishek Jamwal',
-    featureOption: true,
-    feature: 'lots and lots ',
-    fileName: 'README',
-    addSs: true,
-    screenshot: [
-      {
-        screenshotSection: 'Description',
-        screenshotFile: '05-third-party-apis-homework-demo.gif',
-        addSs: true
-      },
-      {
-        screenshotSection: 'Usage',
-        screenshotFile: '06-server-side-apis-homework-demo.png',
-        addSs: false
-      }
-    ]
-  }
-
-// TODO: Create an array of questions for user input
+//-----ARRAY FOR INQUIRER - LIST OF QUESTIONS-----//
 const questions = [
     {
         type: "input",
@@ -235,6 +205,7 @@ const questions = [
     }
 ]
 
+//-----OPTIONAL SCREENSHOR SECTION - WILL LOOP UNTIL NO IS SELECTED-----//
 const screenshot = questions => {
     if (!questions.screenshot) {
         questions.screenshot = [];
@@ -278,10 +249,7 @@ const screenshot = questions => {
     })
 }
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
-
-// TODO: Create a function to initialize app
+//-----INITIATES THE INQUIRER-----//
 function init() {
     console.log(`
     ==================================================
@@ -292,19 +260,17 @@ function init() {
         .prompt(questions);
 };
 
-// Function call to initialize app
+//-----MAIN CALL LOGIC-----//
 readFolderfiles()
     .then(response => {
         ssList = response;
-        console.log(ssList);
     })
     .then(init)
     .then(screenshot)
-    //change
     .then(readmeInputs => {
         return {
             markdownText: generateMarkdown(readmeInputs), 
-            fileName: mockData.fileName
+            fileName: readmeInputs.fileName
         };
     })
     .then(writeFileData => {
