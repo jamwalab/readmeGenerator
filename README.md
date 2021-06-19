@@ -2,7 +2,7 @@
 ## Version 1.0
 ## Description
 
-This app helps develop a README file based on user's input. This app uses inquirer to ask user for a set of command line inputs for different sections of the README. It includes both the required and sections and the optional ones. The user has the option to ignore some of the optional sections.The user also has the option to add screenshots, video links and badges. When run the command line will look like the image below. Once all questions are answered a README file will be generated.
+This app helps develop a README file based on user's input. This app uses inquirer to ask user for a set of command line inputs for different sections of the README. It includes both the required and sections and the optional ones. The user has the option to ignore some of the optional sections. The user also has the option to add screenshots, video links and badges. Run the app and answer all the questions to generate the README file.
 
 
 ## Table of Contents
@@ -13,7 +13,7 @@ This app helps develop a README file based on user's input. This app uses inquir
 * [Test](#test)
 * [Contribution](#contribution)
 * [Feature](#feature)
-* [Credit](#credit)
+* [Credits](#credits)
 
 ## License
 
@@ -24,7 +24,6 @@ This app helps develop a README file based on user's input. This app uses inquir
 To install this app you need to have node installed in your system. Once installed you can clone the repository using the link _https://github.com/jamwalab/readmeGenerator.git_.
 
 Once the repository is cloned, using bash terminal, move to the app repository. Once there install the required npm modules suing the command _"npm install"_. After the npm modules are installed, run the app using the command _"node index"_. App will ask you a series of question, answering them will generate the README file.
-
 
 ## Usage
 
@@ -42,8 +41,13 @@ Once run the app will ask a series of questions, based on which the readme file 
 * Screenshots
 * Video Link
 
-Please note, questions like Description, Installation,Usage, Contribution and Test have minimum of five word requirement. For screenshots files are picked up from [image folder](./assets/img/). App will ask the user for the section in which they want to add screenshots and then the user will have the option to pick an immage from the ones stored in the [image folder](./assets/img/). Adding badge will replace the license text with a badge. Clicking on the padge will open the relevant license page.\n\nA run through of this app can be found in the below video.aaa
+Please note, questions like description, installation, usage, contribution and test have minimum of five word requirement. For screenshots files are picked up from [image folder](./assets/img/). App will ask the user for the section in which they want to add screenshots and then the user will have the option to pick an image from the ones stored in the [image folder](./assets/img/). Adding badge will replace the license text with a badge. Clicking on the badge will open the relevant license page.
 
+Video of a general run through of the app and screenshot of the inquirer object after receiving all the inputs can be found below.
+
+[Link to the Video](https://www.youtube.com/watch?v=b-4aNSSIPHQ)
+
+![image](./assets/img/inquirer_object.PNG)
 
 ## Test
 
